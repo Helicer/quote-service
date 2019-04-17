@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/quotes")
@@ -17,15 +18,29 @@ public class QuoteController {
 
     // List all quotes
     @GetMapping("/")
-    List<Quote> allQuotes() {
+    public List<Quote> allQuotes() {
         return quoteService.getAllQuotes();
     }
 
     // Add single quote
     @PostMapping("/")
-    Quote newQuote(@RequestBody Quote newQuote) {
-        return quoteService.save(newQuote);
+    public Quote newQuote(@RequestBody Quote quote) {
+        return quoteService.save(quote);
 
     }
+
+    // Get a single quote by ID
+    @GetMapping("/{id}")
+    public Optional<Quote> getQuoteById(@PathVariable(value = "id") Long id) {
+        return quoteService.getQuoteById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable(value = "id") Long id) {
+       quoteService.deleteQuoteById(id);
+
+    }
+
+
 
 }

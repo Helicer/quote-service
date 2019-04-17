@@ -21,9 +21,9 @@ public class QuoteService  {
     }
 
 
-    // Delete
-    public void deleteQuote(Quote quote) {
-        quoteRepository.delete(quote);
+    // Delete by ID
+    public void deleteQuoteById(Long id) {
+        quoteRepository.deleteById(id);
     }
 
     // List all

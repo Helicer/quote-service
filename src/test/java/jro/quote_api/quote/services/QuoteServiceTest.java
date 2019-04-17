@@ -17,32 +17,9 @@ public class QuoteServiceTest {
     @Autowired
     QuoteService quoteService;
 
-    Quote q1;
-
-
-    @Before
-    public void init() {
-        // Setup
-        String q1_content = "Welcome to the jungle";
-        String q1_author = "JRO";
-        Quote q1 = new Quote();
-        q1.setContent(q1_content);
-        q1.setAuthor(q1_author);
-        Long q1_id = q1.getId();
-    }
-
-
 
     @Test
     public void addQuote() {
-
-
-        // Action
-        Quote myQuote = quoteService.save(q1);
-
-        // Assert
-        Assert.isTrue(myQuote.getContent().equals(q1.getContent()));
-
 
 
     }
