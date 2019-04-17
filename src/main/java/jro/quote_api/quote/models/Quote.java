@@ -8,8 +8,9 @@ public class Quote {
 
     // Attributes
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "content", nullable = false)
@@ -17,6 +18,17 @@ public class Quote {
 
     @Column(name = "author", nullable = true)
     private String author;
+
+
+    // Constructors
+
+    public Quote() {
+    }
+
+    public Quote(String content, String author) {
+        this.content = content;
+        this.author = author;
+    }
 
 
     // Getters
