@@ -5,6 +5,8 @@ import jro.quote_api.quote.repositories.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,12 @@ public class QuoteService  {
 
     public Quote find(Long quoteId) {
         return quoteRepository.findById(quoteId).get();
+
+    }
+
+    public List<Quote> findAll() {
+
+        return quoteRepository.findAll();
 
     }
 }
