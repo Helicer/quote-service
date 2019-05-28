@@ -15,7 +15,7 @@ public class QuoteController {
     @Autowired
     private QuoteService quoteService;
 
-
+/*
     // List all quotes
     @GetMapping("/")
     public List<Quote> allQuotes() {
@@ -40,7 +40,7 @@ public class QuoteController {
        quoteService.deleteQuoteById(id);
 
     }
-
+*/
 
 
 }

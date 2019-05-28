@@ -11,30 +11,19 @@ import java.util.Optional;
 @Service
 public class QuoteService  {
 
-    @Autowired
     private QuoteRepository quoteRepository;
 
-
-    // Save
-    public Quote save(Quote quote) {
-        return quoteRepository.save(quote);
+    @Autowired
+    public QuoteService(QuoteRepository quoteRepository) {
+        this.quoteRepository = quoteRepository;
     }
 
-
-    // Delete by ID
-    public void deleteQuoteById(Long id) {
-        quoteRepository.deleteById(id);
+    public Long add(Quote quote) {
+        return quoteRepository.save(quote).getId();
     }
 
-    // List all
-    public List<Quote> getAllQuotes() {
-        return quoteRepository.findAll();
+    public Quote find(Long quoteId) {
+        return quoteRepository.findById(quoteId).get();
+
     }
-
-    // Get by ID
-    public Optional<Quote> getQuoteById(Long id) {
-        return quoteRepository.findById(id);
-    }
-
-
 }

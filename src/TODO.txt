@@ -2,6 +2,8 @@
 
 ## TODO
 - Test data for SQL
-
+- CI/CD Pipeline
 
 ## DONE
+
+
