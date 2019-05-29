@@ -2,14 +2,12 @@ package jro.quote_api.quote.services;
 
 import jro.quote_api.Application;
 import jro.quote_api.quote.models.Quote;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -26,14 +24,14 @@ public class QuoteServiceTest {
 
     @Test
     public void createAndFetchAQuote() {
-        Long quoteId = quoteService.add(
+        Quote savedQuote = quoteService.add(
                 new Quote(
                         "A smooth sea never built a skillful sailor",
                         "JRO"
                 )
         );
 
-        Quote quote = quoteService.find(quoteId);
+        Quote quote = quoteService.find(savedQuote.getId());
 
 
         assertThat(quote.getContent()).isEqualTo("A smooth sea never built a skillful sailor");
@@ -45,13 +43,13 @@ public class QuoteServiceTest {
     public void createSeveralQuotesAndFetchThemAll() {
 
 
-        Long quote1Id = quoteService.add(
+        Quote quote1 = quoteService.add(
                 new Quote(
                         "A smooth sea never built a skillful sailor",
                         "JRO"
                 )
         );
-        Long quote2Id = quoteService.add(
+        Quote quote2 = quoteService.add(
                 new Quote(
                         "This was probably a bad idea.",
                         "David"
@@ -63,23 +61,20 @@ public class QuoteServiceTest {
 
 
         Quote quoteWithID1 = quotes.stream()
-                .filter(quote -> quote.getId().equals(quote1Id))
+                .filter(quote -> quote.getId().equals(quote1.getId()))
                 .findFirst()
                 .get();
 
         assertThat(quoteWithID1.getContent()).isEqualTo("A smooth sea never built a skillful sailor");
 
         Quote quoteWithID2 = quotes.stream()
-                .filter(quote -> quote.getId().equals(quote2Id))
+                .filter(quote -> quote.getId().equals(quote2.getId()))
                 .findFirst()
                 .get();
 
         assertThat(quoteWithID2.getContent()).isEqualTo("This was probably a bad idea.");
 
-
-
-
-        // then both of my created quotes are contained in the results
-
     }
+
+
 }

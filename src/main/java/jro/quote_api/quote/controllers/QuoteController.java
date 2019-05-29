@@ -5,9 +5,6 @@ import jro.quote_api.quote.services.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/quotes")
 public class QuoteController {
@@ -15,32 +12,23 @@ public class QuoteController {
     @Autowired
     private QuoteService quoteService;
 
-/*
-    // List all quotes
-    @GetMapping("/")
-    public List<Quote> allQuotes() {
-        return quoteService.getAllQuotes();
-    }
+
+
 
     // Add single quote
-    @PostMapping("/")
+    @PostMapping()
     public Quote newQuote(@RequestBody Quote quote) {
-        return quoteService.save(quote);
+
+        return quoteService.add(quote);
 
     }
 
-    // Get a single quote by ID
     @GetMapping("/{id}")
-    public Optional<Quote> getQuoteById(@PathVariable(value = "id") Long id) {
-        return quoteService.getQuoteById(id);
-    }
+    public Quote getQuote(@PathVariable("id") Long quoteid) {
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(value = "id") Long id) {
-       quoteService.deleteQuoteById(id);
+        return quoteService.find(quoteid);
 
     }
-*/
 
 
 }
