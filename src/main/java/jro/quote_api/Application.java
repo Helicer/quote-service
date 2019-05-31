@@ -13,11 +13,4 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-
-	// FIXME
-	// Added because QuoteService test was not finding QuoteService when annotated with @Component
-	@Bean
-	public QuoteService quoteService(QuoteRepository quoteRepository) {
-		return new QuoteService(quoteRepository);
-	}
 }

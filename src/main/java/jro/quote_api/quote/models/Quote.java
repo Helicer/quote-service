@@ -8,7 +8,6 @@ public class Quote {
 
     // Attributes
 
-
     @Id
     @GeneratedValue
     private Long id;

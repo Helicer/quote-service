@@ -1,22 +1,18 @@
 package jro.quote_api.quote.controllers;
 
-import jro.quote_api.Application;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ContextConfiguration(classes = Application.class)
-//@DataJpaTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class QuoteControllerTest {
 
     @LocalServerPort
@@ -33,7 +29,7 @@ public class QuoteControllerTest {
                         "}"
                 )
                 .when()
-                .post("http://localhost:" + port + "/quotes")
+                .post("http://localhost:" + port +  "/quotes")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -46,7 +42,7 @@ public class QuoteControllerTest {
         given()
                 .contentType("application/json")
                 .when()
-                .get("http://localhost:" + port + "/quotes/" + id)
+                .get("http://localhost:" +  port +  "/quotes/" + id)
                 .then()
                 .statusCode(200)
                 .body("content", Matchers.equalTo("always be kind"))

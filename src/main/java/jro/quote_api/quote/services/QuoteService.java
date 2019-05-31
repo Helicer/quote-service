@@ -3,16 +3,19 @@ package jro.quote_api.quote.services;
 import jro.quote_api.quote.models.Quote;
 import jro.quote_api.quote.repositories.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//@Service
+
+@Service
 public class QuoteService  {
 
+    @Autowired
     private QuoteRepository quoteRepository;
 
-    @Autowired
+
     public QuoteService(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
     }

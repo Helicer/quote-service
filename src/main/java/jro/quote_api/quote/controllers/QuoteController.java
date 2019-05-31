@@ -14,7 +14,6 @@ public class QuoteController {
 
 
 
-
     // Add single quote
     @PostMapping()
     public Quote newQuote(@RequestBody Quote quote) {
@@ -27,6 +26,8 @@ public class QuoteController {
     public Quote getQuote(@PathVariable("id") Long quoteid) {
 
         return quoteService.find(quoteid);
+
+        // TODO: Handle 404
 
     }
 
