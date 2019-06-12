@@ -1,7 +1,7 @@
-package jro.quote_api.quote.services;
+package jro.quote_api;
 
-import jro.quote_api.Application;
 import jro.quote_api.quote.models.Quote;
+import jro.quote_api.quote.services.QuoteService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
-public class QuoteServiceTest {
+public class QuoteServiceTests {
 
     @Autowired
     QuoteService quoteService;

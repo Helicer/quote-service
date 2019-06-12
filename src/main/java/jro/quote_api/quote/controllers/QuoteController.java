@@ -22,6 +22,7 @@ public class QuoteController {
 
     }
 
+    // Get a single quote by ID
     @GetMapping("/{id}")
     public Quote getQuote(@PathVariable("id") Long quoteid) {
 
