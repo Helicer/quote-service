@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -15,22 +16,27 @@ public class QuoteService  {
     private QuoteRepository quoteRepository;
 
 
-    public QuoteService(QuoteRepository quoteRepository) {
-        this.quoteRepository = quoteRepository;
-    }
-
+    // Add new quote
     public Quote add(Quote quote) {
         return quoteRepository.save(quote);
     }
 
-    public Quote find(Long quoteId) {
-        return quoteRepository.findById(quoteId).get();
+    // Find quote by ID
+    public Optional<Quote> find(Long quoteId) {
+        return quoteRepository.findById(quoteId);
 
     }
 
+    // List all quotes
     public List<Quote> findAll() {
-
         return quoteRepository.findAll();
-
     }
+
+    public void delete(Long quoteID) {
+        quoteRepository.deleteById(quoteID);
+    }
+
+    // TODO: Edit existing quote
+
+
 }

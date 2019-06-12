@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,13 +30,13 @@ public class QuoteServiceTests {
                 )
         );
 
-        Quote quote = quoteService.find(savedQuote.getId());
+        Optional<Quote> quote = quoteService.find(savedQuote.getId());
 
-
-        assertThat(quote.getContent()).isEqualTo("A smooth sea never built a skillful sailor");
-        assertThat(quote.getAuthor()).isEqualTo("JRO");
+        assertThat(quote.get().getContent()).isEqualTo("A smooth sea never built a skillful sailor");
+        assertThat(quote.get().getAuthor()).isEqualTo("JRO");
 
     }
+
 
     @Test
     public void createSeveralQuotesAndFetchThemAll() {
@@ -58,6 +59,12 @@ public class QuoteServiceTests {
         List<Quote> quotes = quoteService.findAll();
 
 
+        // Check number of quotes
+        // TODO: Why is this appearing as 3 instead of 2?
+        assertThat(quotes.size()).isEqualTo(2);
+
+
+        // Loop through quotes, filter by ID, check content matches
         Quote quoteWithID1 = quotes.stream()
                 .filter(quote -> quote.getId().equals(quote1.getId()))
                 .findFirst()
@@ -65,12 +72,69 @@ public class QuoteServiceTests {
 
         assertThat(quoteWithID1.getContent()).isEqualTo("A smooth sea never built a skillful sailor");
 
+        // Loop through quotes, filter by ID, check content matches
         Quote quoteWithID2 = quotes.stream()
                 .filter(quote -> quote.getId().equals(quote2.getId()))
                 .findFirst()
                 .get();
 
         assertThat(quoteWithID2.getContent()).isEqualTo("This was probably a bad idea.");
+
+    }
+
+    @Test
+    public void createAQuoteThenDeleteIt() {
+
+        // Create quote
+        Quote savedQuote = quoteService.add(
+                new Quote(
+                        "Whoever has the gold, rules.",
+                        "JRO"
+                )
+        );
+
+        Long quoteID = savedQuote.getId();
+
+
+        // Verify quote exists
+
+        Optional<Quote> quote = quoteService.find(quoteID);
+        assertThat(quote.get().getContent()).isEqualTo("Whoever has the gold, rules.");
+
+        // Delete it
+        quoteService.delete(quoteID);
+
+        // Verify it's gone
+        assertThat(quoteService.find(quoteID)).isEmpty();
+
+
+    }
+
+    @Test
+    public void createAQuoteAndEditIt() {
+
+        // Create quote
+        Quote savedQuote = quoteService.add(
+                new Quote(
+                        "Whoever has the gold, rules.",
+                        "JRO"
+                )
+        );
+
+        Long quoteID = savedQuote.getId();
+
+
+        // Verify quote exists
+        Optional<Quote> quote = quoteService.find(quoteID);
+        assertThat(quote.get().getContent()).isEqualTo("Whoever has the gold, rules.");
+
+        // Change quote
+        quote.get().setContent("How much could a banana cost?");
+        quote.get().setAuthor("Lucile Bluth");
+
+        // Verify new content
+        assertThat(quote.get().getContent()).isEqualTo("How much could a banana cost?");
+        assertThat(quote.get().getAuthor()).isEqualTo("Lucile Bluth");
 
     }
 
