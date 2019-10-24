@@ -1,7 +1,9 @@
 branch-defaults:
   master:
-    environment: quote-service-dev
+    environment: null
     group_suffix: null
+deploy:
+  artifact: target/quote-api-eb.jar
 global:
   application_name: quote-service
   branch: null
@@ -16,5 +18,3 @@ global:
   repository: null
   sc: git
   workspace_type: Application
-deploy:
-  artifact: target/quote-api-eb.jar

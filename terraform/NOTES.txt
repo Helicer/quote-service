@@ -1,0 +1,14 @@
+# NOTES
+
+# Tutorial: Terraform + ECS
+# https://medium.com/@bradford_hamilton/deploying-containers-on-amazons-ecs-using-fargate-and-terraform-part-2-2e6f6a3a957f
+
+# Terraform + ECS
+# https://github.com/bradford-hamilton/terraform-ecs-fargate
+
+# BBL Templates
+# https://github.com/cloudfoundry/bosh-bootloader/tree/master/terraform/aws/templates
+
+
+# Issuue: Can't access docker image
+# https://github.com/aws/amazon-ecs-agent/issues/1128
