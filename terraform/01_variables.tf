@@ -1,7 +1,10 @@
 
+# Borrowed heavily from https://github.com/bradford-hamilton/terraform-ecs-fargate/tree/master/terraform
+
 #-----------------------------
 # AWS fundamentals
 #-----------------------------
+
 
 variable "aws_region" {
   description = "The AWS"
@@ -39,8 +42,8 @@ variable "app_port" {
 }
 
 variable "app_count" {
-  description = "Number of docker containers to run"
-  default     = 1
+  description = "Number of app instances (docker containers) to run"
+  default     = 2
 }
 
 variable "health_check_path" {
