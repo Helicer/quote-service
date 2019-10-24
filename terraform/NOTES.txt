@@ -12,3 +12,7 @@
 
 # Issuue: Can't access docker image
 # https://github.com/aws/amazon-ecs-agent/issues/1128
+
+
+# Arch diagrams
+# https://github.com/nathanpeck/aws-cloudformation-fargate

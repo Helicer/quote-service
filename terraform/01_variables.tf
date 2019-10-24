@@ -1,4 +1,7 @@
 
+#-----------------------------
+# AWS fundamentals
+#-----------------------------
 
 variable "aws_region" {
   description = "The AWS"
@@ -15,19 +18,29 @@ variable "az_count" {
   default     = "2"
 }
 
+
+#-----------------------------
+# App-specific settings
+#-----------------------------
+
+variable "app_id" {
+  description = "Name of app/environment to use in AWS naming"
+  default = "Coco-API"
+}
+
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
   default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:0.1"
 }
 
 variable "app_port" {
-  description = "Port exposed by the docker image"
+  description = "Port exposed by the app's docker image"
   default     = 8080
 }
 
 variable "app_count" {
   description = "Number of docker containers to run"
-  default     = 2
+  default     = 1
 }
 
 variable "health_check_path" {
@@ -45,7 +58,3 @@ variable "fargate_memory" {
 }
 
 
-variable "env_id" {
-  description = "Name of app to use in AWS naming"
-  default = "Coco-API"
-}
