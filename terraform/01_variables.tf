@@ -7,8 +7,8 @@
 
 
 variable "aws_region" {
-  description = "The AWS"
-  default     = "us-east-1"
+  description = "The AWS region"
+  default     = "us-east-2"
 }
 
 variable "ecs_task_execution_role_name" {
@@ -18,7 +18,7 @@ variable "ecs_task_execution_role_name" {
 
 variable "az_count" {
   description = "Number of AZs to cover in a given region"
-  default     = "2"
+  default     = "3"
 }
 
 

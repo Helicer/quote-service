@@ -46,6 +46,11 @@ resource "aws_ecs_service" "main" {
   desired_count   = var.app_count
   launch_type     = "FARGATE"
 
+  # Prevents ECS from terminating tasks which are marked failed by
+  # ALB health check when starting up
+  # Using 4 x ALB health check test interval + time it takes for app to start
+  health_check_grace_period_seconds = 120
+
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = aws_subnet.private.*.id
