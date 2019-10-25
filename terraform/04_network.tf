@@ -22,7 +22,7 @@ resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.main.id
 
   tags          = {
-    Name        = "${var.app_id}-private-subnet"
+    Name        = "${var.app_id}-private-subnet-az${count.index}"
   }
 }
 
@@ -37,7 +37,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags          = {
-    Name        = "${var.app_id}-public-subnet"
+    Name        = "${var.app_id}-public-subnet-az${count.index}"
   }
 }
 
@@ -60,6 +60,9 @@ resource "aws_route" "internet_access" {
 }
 
 
+
+
+
 # Elastic IP, used by NAT gateway to provide subnets internet connectivity
 resource "aws_eip" "gw" {
   count      = var.az_count
@@ -67,18 +70,18 @@ resource "aws_eip" "gw" {
   depends_on = [aws_internet_gateway.gw]
 
   tags = {
-    Name        = "${var.app_id}-eip"
+    Name        = "${var.app_id}-eip-az${count.index}"
   }
 }
 
-# NAT gateway for PUBLIC subnet
+# NAT gateway for PRIVATE subnet
 resource "aws_nat_gateway" "gw" {
   count         = var.az_count
-  subnet_id     = element(aws_subnet.public.*.id, count.index)
+  subnet_id     = element(aws_subnet.private.*.id, count.index)
   allocation_id = element(aws_eip.gw.*.id, count.index)
 
   tags = {
-    Name        = "${var.app_id}-nat-gateway"
+    Name        = "${var.app_id}-nat-gateway-az${count.index}"
   }
 }
 
@@ -95,17 +98,50 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name        = "${var.app_id}-private-route-table"
+    Name        = "${var.app_id}-private-route-table-az${count.index}"
   }
+}
+
+# Explicitly associate the newly created route tables to the private subnets
+# (so they don't default to the main route table)
+resource "aws_route_table_association" "private" {
+  count          = var.az_count
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = element(aws_route_table.private.*.id, count.index)
+}
+
+#-----------------------------
+# VPC Endpoints
+#-----------------------------
+# Allows ECS Tasks on private VPCs to access services such
+# as ECR, S3, and CloudWatch logs
+# Examples: https://github.com/terraform-aws-modules/terraform-aws-vpc/blob/master/vpc-endpoints.tf#L342
+
+# S3 VPC Endpoint (type "gateway")
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id       = "${aws_vpc.main.id}"
+  service_name = "com.amazonaws.${var.aws_region}.s3" # TODO: Check this
+
+  tags = {
+    Name        = "${var.app_id}-endpoint-s3"
+  }
+}
+
+resource "aws_vpc_endpoint_route_table_association" "s3" {
+  count          = var.az_count
+  route_table_id = element(aws_route_table.private.*.id, count.index)
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
 }
 
 
 
+# ECR VPC Endpoint (type "interface")
+
+resource "aws_vpc_endpoint" "ecr" {
+  service_name = "com.amazonaws.${var.aws_region}.ecr.dkr"
+  vpc_id = "${aws_vpc.main.id}"
+  #subnet_ids = []
+}
 
 
-
-
-
-
-
-
+# Logs VPC Endpoint (type "interface")

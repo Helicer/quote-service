@@ -1,11 +1,12 @@
 
-
+# App ECS cluster, which contains ECS Services and ECS Tasks
 resource "aws_ecs_cluster" "main" {
   name = "${var.app_id}-cluster"
 }
 
-
+# ECS Task which runs the app container (pulled from AWS ECR)
 resource "aws_ecs_task_definition" "app" {
+  # Task name
   family                   = "${var.app_id}-task"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
@@ -39,6 +40,7 @@ resource "aws_ecs_task_definition" "app" {
     DEFINITION
 }
 
+# AWS ECS Service which runs instances of the app as ECS Tasks
 resource "aws_ecs_service" "main" {
   name            = "${var.app_id}-service"
   cluster         = aws_ecs_cluster.main.id
@@ -54,7 +56,8 @@ resource "aws_ecs_service" "main" {
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = aws_subnet.private.*.id
-    assign_public_ip = true
+    #assign_public_ip = true
+    assign_public_ip = false
   }
 
   load_balancer {

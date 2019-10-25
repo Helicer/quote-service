@@ -5,15 +5,13 @@ resource "aws_alb" "main" {
   subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.lb.id]
 
-  // TODO: Add access logs
-//  access_logs {
-//    bucket  = "${aws_s3_bucket.lb_logs.bucket}"
-//    prefix  = "test-lb"
-//    enabled = true
-//  }
 
-
-
+  # TODO: Create S3 Bucket in TF and refer to it here
+   access_logs {
+     bucket  = "cocoapi"
+    enabled = true
+    prefix  = "alb-logs"
+  }
 
 }
 

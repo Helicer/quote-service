@@ -2,7 +2,7 @@
 
 # ALB Security Group to control access to the application
 resource "aws_security_group" "lb" {
-  name        = "${var.app_id}-ALB-security-group"
+  name        = "${var.app_id}-alb-security-group"
   description = "Controls access to application load balancer"
   vpc_id      = aws_vpc.main.id
 
@@ -23,7 +23,7 @@ resource "aws_security_group" "lb" {
   }
 
   tags          = {
-    Name        = "${var.app_id}-ALB-security-group"
+    Name        = "${var.app_id}-alb-security-group"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_security_group" "lb" {
 
 # Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "ecs_tasks" {
-  name        = "${var.app_id}-ECS-Task-security-group"
+  name        = "${var.app_id}-ecs-task-security-group"
   description = "Allow inbound access from the ALB only"
   vpc_id      = aws_vpc.main.id
 
@@ -51,6 +51,6 @@ resource "aws_security_group" "ecs_tasks" {
   }
 
   tags          = {
-    Name        = "${var.app_id}-ECS-Tasks-security-group"
+    Name        = "${var.app_id}-ecs-tasks-security-group"
   }
 }

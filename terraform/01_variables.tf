@@ -7,8 +7,8 @@
 
 
 variable "aws_region" {
-  description = "The AWS region"
-  default     = "us-east-2"
+  description = "AWS region"
+  default     = "us-east-1"
 }
 
 variable "ecs_task_execution_role_name" {
@@ -27,12 +27,13 @@ variable "az_count" {
 #-----------------------------
 
 variable "app_id" {
-  description = "Name of app/environment to use in AWS naming"
+  description = "Name of app/environment to use in AWS naming and tagging"
   default = "Coco-API"
 }
 
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
+  # TODO: Change this tag to `:latest` ?
   default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:0.1"
 }
 
