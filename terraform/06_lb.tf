@@ -4,6 +4,17 @@ resource "aws_alb" "main" {
   name            = "${var.app_id}-load-balancer"
   subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.lb.id]
+
+  // TODO: Add access logs
+//  access_logs {
+//    bucket  = "${aws_s3_bucket.lb_logs.bucket}"
+//    prefix  = "test-lb"
+//    enabled = true
+//  }
+
+
+
+
 }
 
 resource "aws_alb_target_group" "app" {

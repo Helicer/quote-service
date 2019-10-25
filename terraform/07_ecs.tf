@@ -49,7 +49,7 @@ resource "aws_ecs_service" "main" {
   # Prevents ECS from terminating tasks which are marked failed by
   # ALB health check when starting up
   # Using 4 x ALB health check test interval + time it takes for app to start
-  health_check_grace_period_seconds = 120
+  health_check_grace_period_seconds = 180
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
