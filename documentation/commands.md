@@ -5,11 +5,18 @@
 
 ## Build
 `docker image build -t <image name>:<tag> .`
+
 Example: `docker image build -t jro_debug:latest .`
 
 
 ## Tag
 `docker tag <Image ID> <tag`
+
+Example: `docker tag jro/quote-service:latest 783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest`
+
+
+## Push
+Example: `docker push 783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest`
 
 ## Run
 `docker container run <image name>:<tag>`
