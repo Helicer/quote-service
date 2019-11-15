@@ -23,6 +23,7 @@ Example: `docker push 783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-ser
 
 ## Prune
 Remove un-used images
+
 `docker image prune`
 
 
