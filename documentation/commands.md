@@ -1,3 +1,22 @@
+# Docker
+
+## List images
+`docker image ls`
+
+## Build
+`docker image build -t <image name>:<tag> .`
+Example: `docker image build -t jro_debug:latest .`
+
+
+## Tag
+`docker tag <Image ID> <tag`
+
+## Run
+`docker container run <image name>:<tag>`
+
+## Prune
+Remove un-used images
+`docker image prune`
 
 
 
