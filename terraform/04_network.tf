@@ -6,6 +6,9 @@ data "aws_availability_zones" "available" {
 # Main VPC
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+  # TODO: Enable Private DNS resolution to support VPC Endpoints that require it
 
   tags          = {
     Name        = "${var.app_id}-vpc"
@@ -34,7 +37,7 @@ resource "aws_subnet" "public" {
   cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, var.az_count + count.index)
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   vpc_id                  = aws_vpc.main.id
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = true # Allows it to access internet
 
   tags          = {
     Name        = "${var.app_id}-public-subnet-az${count.index}"
@@ -119,7 +122,7 @@ resource "aws_route_table_association" "private" {
 
 # S3 VPC Endpoint (type "gateway")
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = "${aws_vpc.main.id}"
+  vpc_id       = aws_vpc.main.id
   service_name = "com.amazonaws.${var.aws_region}.s3" # TODO: Check this
 
   tags = {
@@ -139,9 +142,22 @@ resource "aws_vpc_endpoint_route_table_association" "s3" {
 
 resource "aws_vpc_endpoint" "ecr" {
   service_name = "com.amazonaws.${var.aws_region}.ecr.dkr"
-  vpc_id = "${aws_vpc.main.id}"
-  #subnet_ids = []
+  vpc_id = aws_vpc.main.id
+  vpc_endpoint_type = "Interface"
+  private_dns_enabled = true
+
+  security_group_ids = [
+    "${aws_security_group.vpc_endpoint.id}",
+  ]
+
+  tags = {
+    Name        = "${var.app_id}-endpoint-ecr"
+  }
 }
 
 
+
 # Logs VPC Endpoint (type "interface")
+
+### ERROR
+# FIXME: CannotPullContainerError: Error response from daemon: Get https://783032674095.dkr.ecr.us-east-1.amazonaws.com/v2/: Unable to connect

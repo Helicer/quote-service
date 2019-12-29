@@ -33,8 +33,7 @@ variable "app_id" {
 
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
-  # TODO: Change this tag to `:latest` ?
-  default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:0.1"
+  default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest"
 }
 
 variable "app_port" {

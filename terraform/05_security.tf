@@ -44,13 +44,47 @@ resource "aws_security_group" "ecs_tasks" {
   }
 
   egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags          = {
     Name        = "${var.app_id}-ecs-tasks-security-group"
   }
+}
+
+resource "aws_security_group" "vpc_endpoint" {
+  name = "vpc-endpoint-security-group"
+  description = "VPC Endpoints require an associated security group"
+  vpc_id      = aws_vpc.main.id
+
+  # TODO: Is any of this needed?
+  ingress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # TODO: Is any of this needed?
+  egress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+//  egress {
+//    protocol    = "-1"
+//    from_port   = 0
+//    to_port     = 0
+//    cidr_blocks = ["0.0.0.0/0"]
+//  }
+
+  tags          = {
+    Name        = "${var.app_id}-vpc-endpoint-security-group"
+  }
+
 }

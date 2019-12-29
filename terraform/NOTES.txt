@@ -16,3 +16,5 @@
 
 # Arch diagrams
 # https://github.com/nathanpeck/aws-cloudformation-fargate
+
+# CLI / Getting started
