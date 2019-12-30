@@ -1,3 +1,7 @@
+#############################
+# VARIABLES
+#############################
+
 
 # Borrowed heavily from https://github.com/bradford-hamilton/terraform-ecs-fargate/tree/master/terraform
 
@@ -16,6 +20,7 @@ variable "ecs_task_execution_role_name" {
   default = "myEcsTaskExecutionRole"
 }
 
+# AWS Availability Zones
 variable "az_count" {
   description = "Number of AZs to cover in a given region"
   default     = "3"
@@ -47,6 +52,8 @@ variable "app_count" {
 }
 
 variable "health_check_path" {
+  description = "Application URL which indicates health"
+  # Using Spring Boot Actuator
   default = "/actuator/health"
 }
 

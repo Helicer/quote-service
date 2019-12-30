@@ -1,6 +1,8 @@
+#############################
+# SECURITY
+#############################
 
-
-# ALB Security Group to control access to the application
+# Security Group to control public access to the application load balancer (ALB)
 resource "aws_security_group" "lb" {
   name        = "${var.app_id}-alb-security-group"
   description = "Controls access to application load balancer"
@@ -8,10 +10,8 @@ resource "aws_security_group" "lb" {
 
   ingress {
     protocol    = "tcp"
-    #from_port   = var.app_port
-    from_port   = 80
-    #to_port     = var.app_port
-    to_port     = 80
+    from_port   = 80 # TODO: Add to variables
+    to_port     = 80 # TODO: Add to variables
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -29,24 +29,25 @@ resource "aws_security_group" "lb" {
 
 
 
-
-# Traffic to the ECS cluster should only come from the ALB
+# Security group for the ECS Tasks
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.app_id}-ecs-task-security-group"
   description = "Allow inbound access from the ALB only"
   vpc_id      = aws_vpc.main.id
 
   ingress {
+    # Traffic to the ECS cluster should only come from the ALB
     protocol        = "tcp"
     from_port       = var.app_port
     to_port         = var.app_port
     security_groups = [aws_security_group.lb.id]
   }
 
+  # TODO: Is this needed? for pulling down ECR images thru VPC Endpoint
   egress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -55,9 +56,10 @@ resource "aws_security_group" "ecs_tasks" {
   }
 }
 
-resource "aws_security_group" "vpc_endpoint" {
-  name = "vpc-endpoint-security-group"
-  description = "VPC Endpoints require an associated security group"
+# Security group for the ECR VPC Endpoint
+resource "aws_security_group" "ecr_vpc_endpoint" {
+  name = "${var.app_id}-ecr-vpc-endpoint-security-group"
+  description = "Allow ECS Tasks to access the ECR Endpoint"
   vpc_id      = aws_vpc.main.id
 
   # TODO: Is any of this needed?
@@ -65,26 +67,20 @@ resource "aws_security_group" "vpc_endpoint" {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.ecs_tasks.id]
+    #cidr_blocks = ["0.0.0.0/0"]
+    # QUESTION: Should this be a security group or CIDR?
   }
 
-  # TODO: Is any of this needed?
   egress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-//  egress {
-//    protocol    = "-1"
-//    from_port   = 0
-//    to_port     = 0
-//    cidr_blocks = ["0.0.0.0/0"]
-//  }
 
   tags          = {
-    Name        = "${var.app_id}-vpc-endpoint-security-group"
+    Name        = "${var.app_id}-ecr-vpc-endpoint-security-group"
   }
 
 }

@@ -1,3 +1,6 @@
+#############################
+# LOAD BALANCERS
+#############################
 
 # Public load balancer for application
 resource "aws_alb" "main" {
@@ -5,16 +8,17 @@ resource "aws_alb" "main" {
   subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.lb.id]
 
-
   # TODO: Create S3 Bucket in TF and refer to it here
    access_logs {
      bucket  = "cocoapi"
-    enabled = true
-    prefix  = "alb-logs"
+     enabled = true
+     prefix  = "alb-logs"
   }
 
 }
 
+# ALB Target group
+# Note: This is registered by the ECS Service
 resource "aws_alb_target_group" "app" {
   name        = "${var.app_id}-target-group"
   port        = var.app_port
@@ -37,7 +41,7 @@ resource "aws_alb_target_group" "app" {
 # Sends to target group.
 resource "aws_alb_listener" "front_end" {
   load_balancer_arn = aws_alb.main.id
-  port              = 80
+  port              = 80 # TODO: Factor into TF variables
   protocol          = "HTTP"
 
   default_action {
@@ -45,7 +49,3 @@ resource "aws_alb_listener" "front_end" {
     type             = "forward"
   }
 }
-
-
-# TODO: Attach to instance
-# https://www.terraform.io/docs/providers/aws/r/lb_target_group_attachment.html

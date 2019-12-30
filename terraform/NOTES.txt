@@ -1,20 +1,37 @@
 # NOTES
 
+App: Spring Boot Java REST API app
+Repository: App containerized & hosted on AWS ECR
+Network: ECS Tasks run on Private Subnets. Application Load Balancer is on Public subnet, connects to back end services
+
+
+# Official documentation
+#------------------------
+# Amazon ECS Interface VPC Endpoints (AWS PrivateLink): https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
+
+
+
+
+
+# Diagrams
+#------------------------
+
+
+
+# Tutorials, Blogs, etc
+#------------------------
 # Tutorial: Terraform + ECS
 # https://medium.com/@bradford_hamilton/deploying-containers-on-amazons-ecs-using-fargate-and-terraform-part-2-2e6f6a3a957f
 
 # Terraform + ECS
-# https://github.com/bradford-hamilton/terraform-ecs-fargate
+# https://github.com/bradford-hamilton/terraform-ecs-fargate (uses NAT gateway)
 
 # BBL Templates
 # https://github.com/cloudfoundry/bosh-bootloader/tree/master/terraform/aws/templates
 
 
-# Issuue: Can't access docker image
-# https://github.com/aws/amazon-ecs-agent/issues/1128
 
 
-# Arch diagrams
-# https://github.com/nathanpeck/aws-cloudformation-fargate
-
-# CLI / Getting started
+# ERRORS
+#------------------------
+# CannotPullContainerError: Error response from daemon: Get https://783032674095.dkr.ecr.us-east-1.amazonaws.com/v2/: Unable to connect

@@ -1,3 +1,7 @@
+#############################
+# ELASTIC CONTAINER SERVICE (ECS)
+#############################
+
 
 # App ECS cluster, which contains ECS Services and ECS Tasks
 resource "aws_ecs_cluster" "main" {
@@ -38,6 +42,8 @@ resource "aws_ecs_task_definition" "app" {
       }
     ]
     DEFINITION
+
+  # TODO: Container Definition Factor log information into TF variables
 }
 
 # AWS ECS Service which runs instances of the app as ECS Tasks
@@ -48,9 +54,8 @@ resource "aws_ecs_service" "main" {
   desired_count   = var.app_count
   launch_type     = "FARGATE"
 
-  # Prevents ECS from terminating tasks which are marked failed by
-  # ALB health check when starting up
-  # Using 4 x ALB health check test interval + time it takes for app to start
+  # Prevents ECS from terminating tasks which are marked failed by ALB health check when starting up
+  # NOTE: Using 4 x ALB health check test interval + time it takes for app to start
   health_check_grace_period_seconds = 180
 
   network_configuration {
@@ -60,6 +65,7 @@ resource "aws_ecs_service" "main" {
     assign_public_ip = false
   }
 
+  # Registers the ECS Tasks & Service with the Application Load Balancer target group
   load_balancer {
     target_group_arn = aws_alb_target_group.app.id
     container_name   = "${var.app_id}-container"
