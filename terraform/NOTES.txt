@@ -30,8 +30,3 @@ Network: ECS Tasks run on Private Subnets. Application Load Balancer is on Publi
 # https://github.com/cloudfoundry/bosh-bootloader/tree/master/terraform/aws/templates
 
 
-
-
-# ERRORS
-#------------------------
-# CannotPullContainerError: Error response from daemon: Get https://783032674095.dkr.ecr.us-east-1.amazonaws.com/v2/: Unable to connect

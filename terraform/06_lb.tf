@@ -2,7 +2,7 @@
 # LOAD BALANCERS
 #############################
 
-# Public load balancer for application
+# Public-facing load balancer for application
 resource "aws_alb" "main" {
   name            = "${var.app_id}-load-balancer"
   subnets         = aws_subnet.public.*.id
@@ -43,6 +43,8 @@ resource "aws_alb_listener" "front_end" {
   load_balancer_arn = aws_alb.main.id
   port              = 80 # TODO: Factor into TF variables
   protocol          = "HTTP"
+
+  # TODO: Add HTTPS 443
 
   default_action {
     target_group_arn = aws_alb_target_group.app.id

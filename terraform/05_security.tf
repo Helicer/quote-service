@@ -2,10 +2,10 @@
 # SECURITY
 #############################
 
-# Security Group to control public access to the application load balancer (ALB)
+# Security Group to control public/external access to the application load balancer (ALB)
 resource "aws_security_group" "lb" {
   name        = "${var.app_id}-alb-security-group"
-  description = "Controls access to application load balancer"
+  description = "Permits public access to application load balancer"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -14,6 +14,8 @@ resource "aws_security_group" "lb" {
     to_port     = 80 # TODO: Add to variables
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # TODO: Add HTTPS 443 ingress rule
 
   egress {
     protocol    = "-1"
@@ -32,7 +34,7 @@ resource "aws_security_group" "lb" {
 # Security group for the ECS Tasks
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.app_id}-ecs-task-security-group"
-  description = "Allow inbound access from the ALB only"
+  description = "Permit inbound access from the ALB only"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -51,6 +53,14 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    # Traffic to the ECS cluster should only come from the ALB
+    protocol        = "tcp"
+    from_port       = 0
+    to_port         = 0
+    security_groups = [aws_security_group.lb.id]
+  }
+
   tags          = {
     Name        = "${var.app_id}-ecs-tasks-security-group"
   }
@@ -59,19 +69,17 @@ resource "aws_security_group" "ecs_tasks" {
 # Security group for the ECR VPC Endpoint
 resource "aws_security_group" "ecr_vpc_endpoint" {
   name = "${var.app_id}-ecr-vpc-endpoint-security-group"
-  description = "Allow ECS Tasks to access the ECR Endpoint"
+  description = "Allow ECS Fargate Tasks to access VPC Endpoints"
   vpc_id      = aws_vpc.main.id
 
-  # TODO: Is any of this needed?
   ingress {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
     security_groups = [aws_security_group.ecs_tasks.id]
-    #cidr_blocks = ["0.0.0.0/0"]
-    # QUESTION: Should this be a security group or CIDR?
   }
 
+  # TODO: Should this be restricted?
   egress {
     protocol    = "-1"
     from_port   = 0

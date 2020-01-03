@@ -28,7 +28,7 @@ resource "aws_ecs_task_definition" "app" {
         "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
-            "awslogs-group": "ecs/${var.app_id}-log-group",
+            "awslogs-group": "${var.app_id}-log-group",
             "awslogs-region": "${var.aws_region}",
             "awslogs-stream-prefix": "ecs"
           }
@@ -61,7 +61,6 @@ resource "aws_ecs_service" "main" {
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = aws_subnet.private.*.id
-    #assign_public_ip = true
     assign_public_ip = false
   }
 
