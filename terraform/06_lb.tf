@@ -10,11 +10,16 @@ resource "aws_alb" "main" {
 
   # TODO: Create S3 Bucket in TF and refer to it here
    access_logs {
-     bucket  = "cocoapi"
+     bucket  = aws_s3_bucket.alb-logs.id
      enabled = true
      prefix  = "alb-logs"
   }
 
+}
+
+
+output "alb_domain" {
+  value = aws_alb.main.dns_name
 }
 
 # ALB Target group
