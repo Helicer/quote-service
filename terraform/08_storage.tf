@@ -37,6 +37,7 @@ POLICY
 resource "aws_s3_bucket" "alb-logs" {
   bucket = "quote-service-alb"
   acl    = "private"
+  force_destroy = true
 
   tags = {
     Name        = "${var.app_id}-S3-ALB"
