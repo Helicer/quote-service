@@ -8,7 +8,7 @@ data "aws_elb_service_account" "main" {}
 
 # Creating policy on S3, for lb to write
 resource "aws_s3_bucket_policy" "lb-bucket-policy" {
-  bucket = "${aws_s3_bucket.alb-logs.id}"
+  bucket = aws_s3_bucket.alb-logs.id
 
   policy = <<POLICY
 {
