@@ -2,25 +2,9 @@
 
 version: 0.2
 phases:
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - REPOSITORY_URI=783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - echo $IMAGE_TAG
   build:
     commands:
       - echo Build started on `date`
       - echo Starting Java Build...
-      - mvn clean package docker:build -DpushImageTag
-  post_build:
-    commands:
-      - echo Writing image definitions file...
-      - echo $REPOSITORY_URI
-      - echo $IMAGE_TAG
-      - printf '[{"name":"fetch-booking-container","imageUri":"783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest"}]' > imagedefinitions.json
-artifacts:
-  files:
-    - imagedefinitions.json
+      - mvn clean
+      - mvn install
