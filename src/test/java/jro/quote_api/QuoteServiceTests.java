@@ -6,6 +6,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -16,11 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 @ContextConfiguration(classes = Application.class)
 public class QuoteServiceTests {
 
     @Autowired
-    QuoteService quoteService;
+    private QuoteService quoteService;
 
     @Test
     public void createAndFetchAQuote() {
@@ -40,6 +43,7 @@ public class QuoteServiceTests {
 
 
     @Ignore("Not working yet!")
+    // Looks like it's keeping the item made in the previous test?
     @Test
     public void createSeveralQuotesAndFetchThemAll() {
 
