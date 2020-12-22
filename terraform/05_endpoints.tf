@@ -45,14 +45,14 @@ resource "aws_vpc_endpoint" "ecr" {
 
   # Needs a security group permitting Ingress :443 from the Private Subnet
   security_group_ids = [
-    "${aws_security_group.ecr_vpc_endpoint.id}",
+    "aws_security_group.ecr_vpc_endpoint.i",
   ]
 
   # TODO: Factor into variable
   subnet_ids = [
-    "${aws_subnet.private.0.id}",
-    "${aws_subnet.private.1.id}",
-    "${aws_subnet.private.2.id}",
+    "subnet.private.0.id",
+    "subnet.private.1.id",
+    "subnet.private.2.id",
   ]
 
   tags = {
@@ -75,14 +75,14 @@ resource "aws_vpc_endpoint" "logs" {
 
   # Needs a security group permitting Ingress :443 from the Private Subnet
   security_group_ids = [
-    "${aws_security_group.ecr_vpc_endpoint.id}",
+    "aws_security_group.ecr_vpc_endpoint.id",
   ]
 
   # TODO: Factor into variable
   subnet_ids = [
-    "${aws_subnet.private.0.id}",
-    "${aws_subnet.private.1.id}",
-    "${aws_subnet.private.2.id}",
+    "subnet.private.0.id",
+    "subnet.private.1.id",
+    "subnet.private.2.id",
   ]
 
   tags = {
