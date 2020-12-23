@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "app" {
     [
       {
         "name": "${var.app_id}-container",
-        "image": "${var.app_image}",
+        "image": "${aws_ecr_repository.ecr.repository_url}:latest",
         "cpu": ${var.fargate_cpu},
         "memory": ${var.fargate_memory},
         "essential": true,

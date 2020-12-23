@@ -41,7 +41,6 @@ resource "aws_s3_bucket" "alb-logs" {
 
   tags = {
     Name        = "${var.app_id}-S3-ALB"
-
   }
 }
 

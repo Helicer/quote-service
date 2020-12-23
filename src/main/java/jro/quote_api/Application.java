@@ -17,6 +17,6 @@ public class Application {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
-		return "Welcome to Quote Service!";
+		return "Welcome to JRO's Quote Service!";
 	}
 }

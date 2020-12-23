@@ -36,10 +36,11 @@ variable "app_id" {
   default = "Coco-API"
 }
 
-variable "app_image" {
-  description = "Docker image to run in the ECS cluster"
-  default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest"
-}
+//variable "app_image" {
+//  description = "Docker image to run in the ECS cluster"
+////  default     = "783032674095.dkr.ecr.us-east-1.amazonaws.com/jro/quote-service:latest"
+//  default     = aws_ecr_repository.ecr.repository_url
+//}
 
 variable "app_port" {
   description = "Port exposed by the app's docker image"
