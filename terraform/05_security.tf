@@ -24,8 +24,8 @@ resource "aws_security_group" "lb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags          = {
-    Name        = "${var.app_id}-alb-security-group"
+  tags = {
+    Name = "${var.app_id}-alb-security-group"
   }
 }
 
@@ -61,21 +61,21 @@ resource "aws_security_group" "ecs_tasks" {
     security_groups = [aws_security_group.lb.id]
   }
 
-  tags          = {
-    Name        = "${var.app_id}-ecs-tasks-security-group"
+  tags = {
+    Name = "${var.app_id}-ecs-tasks-security-group"
   }
 }
 
 # Security group for the ECR VPC Endpoint
 resource "aws_security_group" "ecr_vpc_endpoint" {
-  name = "${var.app_id}-ecr-vpc-endpoint-security-group"
+  name        = "${var.app_id}-ecr-vpc-endpoint-security-group"
   description = "Allow ECS Fargate Tasks to access VPC Endpoints"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
+    protocol        = "tcp"
+    from_port       = 443
+    to_port         = 443
     security_groups = [aws_security_group.ecs_tasks.id]
   }
 
@@ -87,8 +87,8 @@ resource "aws_security_group" "ecr_vpc_endpoint" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags          = {
-    Name        = "${var.app_id}-ecr-vpc-endpoint-security-group"
+  tags = {
+    Name = "${var.app_id}-ecr-vpc-endpoint-security-group"
   }
 
 }

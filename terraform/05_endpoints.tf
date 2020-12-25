@@ -17,13 +17,13 @@ resource "aws_vpc_endpoint" "s3" {
   service_name = "com.amazonaws.${var.aws_region}.s3"
 
   tags = {
-    Name        = "${var.app_id}-s3-vpc-endpoint"
+    Name = "${var.app_id}-s3-vpc-endpoint"
   }
 }
 
 # Associate a route from the PRIVATE subnet ROUTE TABLE to the S3 Endpoint
 resource "aws_vpc_endpoint_route_table_association" "s3" {
-  route_table_id = aws_route_table.private.id
+  route_table_id  = aws_route_table.private.id
   vpc_endpoint_id = aws_vpc_endpoint.s3.id
 }
 
@@ -35,8 +35,8 @@ resource "aws_vpc_endpoint_route_table_association" "s3" {
 # - Purpose: Allow Fargate tasks on private subnets to access ECR
 # - Note: Endpoint type is "interface"
 resource "aws_vpc_endpoint" "ecr" {
-  service_name = "com.amazonaws.${var.aws_region}.ecr.dkr" # TODO: Add this to variables
-  vpc_id = aws_vpc.main.id
+  service_name      = "com.amazonaws.${var.aws_region}.ecr.dkr" # TODO: Add this to variables
+  vpc_id            = aws_vpc.main.id
   vpc_endpoint_type = "Interface"
 
   # Private DNS is suggested
@@ -55,7 +55,7 @@ resource "aws_vpc_endpoint" "ecr" {
     aws_subnet.private.2.id,
   ]
   tags = {
-    Name        = "${var.app_id}-ecr-vpc-endpoint"
+    Name = "${var.app_id}-ecr-vpc-endpoint"
   }
 }
 
@@ -64,8 +64,8 @@ resource "aws_vpc_endpoint" "ecr" {
 # - Purpose: Allow Fargate tasks on private subnets to access ECR
 # - Note: Endpoint type is "interface"
 resource "aws_vpc_endpoint" "logs" {
-  service_name = "com.amazonaws.${var.aws_region}.logs" # TODO: Add this to variables
-  vpc_id = aws_vpc.main.id
+  service_name      = "com.amazonaws.${var.aws_region}.logs" # TODO: Add this to variables
+  vpc_id            = aws_vpc.main.id
   vpc_endpoint_type = "Interface"
 
   # Private DNS is suggested
@@ -85,7 +85,7 @@ resource "aws_vpc_endpoint" "logs" {
   ]
 
   tags = {
-    Name        = "${var.app_id}-logs-vpc-endpoint"
+    Name = "${var.app_id}-logs-vpc-endpoint"
   }
 }
 

@@ -17,7 +17,7 @@ variable "aws_region" {
 
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
-  default = "myEcsTaskExecutionRole"
+  default     = "myEcsTaskExecutionRole"
 }
 
 # AWS Availability Zones
@@ -33,7 +33,7 @@ variable "az_count" {
 
 variable "app_id" {
   description = "Name of app/environment to use in AWS naming and tagging"
-  default = "Coco-API"
+  default     = "Coco-API"
 }
 
 //variable "app_image" {

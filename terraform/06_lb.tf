@@ -9,10 +9,10 @@ resource "aws_alb" "main" {
   security_groups = [aws_security_group.lb.id]
 
   # TODO: Create S3 Bucket in TF and refer to it here
-   access_logs {
-     bucket  = aws_s3_bucket.alb-logs.id
-     enabled = true
-     prefix  = "alb-logs"
+  access_logs {
+    bucket  = aws_s3_bucket.alb-logs.id
+    enabled = true
+    prefix  = "alb-logs"
   }
 
 }
