@@ -12,10 +12,10 @@ resource "aws_ecr_repository" "ecr" {
     Name = "${var.app_id}-ECR"
   }
 
-  provisioner "local-exec" {
-    // TODO: Refactor tag as variable
-    command = "docker tag jro/quote-service:latest ${aws_ecr_repository.ecr.repository_url}:latest && docker push ${aws_ecr_repository.ecr.repository_url}:latest"
-  }
+//  provisioner "local-exec" {
+//    // TODO: Refactor tag as variable
+//    command = "docker tag jro/quote-service:latest ${aws_ecr_repository.ecr.repository_url}:latest && docker push ${aws_ecr_repository.ecr.repository_url}:latest"
+//  }
 
 }
 

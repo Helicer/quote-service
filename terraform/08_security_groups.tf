@@ -1,5 +1,5 @@
 #############################
-# SECURITY
+# SECURITY GROUPS
 #############################
 
 # Security Group to control public/external access to the application load balancer (ALB)
