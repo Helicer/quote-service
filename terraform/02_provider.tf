@@ -15,7 +15,7 @@ terraform {
     organization = "jro"
 
     workspaces {
-      prefix = "quote-service-"
+      name = "quote-service"
     }
   }
 }
