@@ -71,19 +71,19 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      # List Terraform Workspace
+    - name: Terraform Workspace
+      run: terraform workspace list
 
+      # List Terraform Workspace
+    - name: Select Workspace
+      run: terraform workspace select dev
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform -chdir=terraform init
 
-    # List Terraform Workspace
-    - name: Terraform Workspace
-      run: terraform workspace list
 
-    # List Terraform Workspace
-    - name: Select Workspace
-      run: terraform workspace select quote-service-dev
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
