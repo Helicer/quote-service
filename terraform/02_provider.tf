@@ -15,9 +15,8 @@ terraform {
     organization = "jro"
 
     workspaces {
-      # TODO: Change to quote-api
       # TODO: Change to a variable?
-      name = "quote-service"
+      name = "quote-api"
     }
   }
 }
