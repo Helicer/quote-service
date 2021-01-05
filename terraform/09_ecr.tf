@@ -2,7 +2,9 @@
 
 resource "aws_ecr_repository" "ecr" {
   # The name must start with a letter and can only contain lowercase letters, numbers, hyphens (-), underscores (_), and forward slashes (/).
-  name = lower(var.app_id)
+  # TODO: Use a variable here
+  name = "jro/${lower(var.app_id)}"
+
 
   image_scanning_configuration {
     scan_on_push = true
