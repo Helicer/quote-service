@@ -48,7 +48,9 @@ on:
   push:
     branches:
     - master
-  pull_request:
+# TODO: Re-enable
+#  pull_request:
+
 
 jobs:
   terraform:
