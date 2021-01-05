@@ -33,7 +33,7 @@ variable "az_count" {
 
 variable "app_id" {
   description = "Name of app/environment to use in AWS naming and tagging"
-  default     = "Coco-API"
+  default     = "Quote-API"
 }
 
 //variable "app_image" {
